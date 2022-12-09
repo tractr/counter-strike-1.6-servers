@@ -10,10 +10,10 @@ RUN unzip -o /csdm-2.1.zip -d /hlds/cstrike
 
 # Copy configs for team DM
 FROM base as deathmatch-team
-COPY config/team/mod /hlds/cstrike/addons/amxmodx/configs
-COPY config/team/base /hlds/cstrike
+COPY config/team/mod/* /hlds/cstrike/addons/amxmodx/configs
+COPY config/team/base/* /hlds/cstrike
 
 # Copy configs for ffa DM
 FROM base as deathmatch-ffa
-COPY config/ffa/mod /hlds/cstrike/addons/amxmodx/configs
-COPY config/ffa/base /hlds/cstrike
+COPY config/ffa/mod/* /hlds/cstrike/addons/amxmodx/configs
+COPY config/ffa/base/* /hlds/cstrike
