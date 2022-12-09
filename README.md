@@ -9,11 +9,11 @@ These images are based on https://github.com/archont94/counter-strike1.6
 The fastest way to set this up is to pull the image and start it via `docker run`.
 
 ``` bash
-docker pull archont94/counter-strike1.6
+docker pull tractr/counter-strike-1.6-servers
 ```
 
 ``` bash
-docker run --name cs16-server -p 27015:27015/udp -p 27015:27015 -p 80:80 archont94/counter-strike1.6:latest
+docker run --name cs16-server -p 27015:27015/udp -p 27015:27015 -p 80:80 tractr/counter-strike-1.6-servers:latest
 ```
 
 Port 27015 is required by Counter-Strike 1.6 game server.
@@ -51,7 +51,7 @@ You can add you own `server.cfg`, `banned.cfg`, `listip.cfg` and `mapcycle.txt` 
 The complete command looks like this:
 
 ``` bash
-docker run --name cs16-server -p 27015:27015/udp -p 27015:27015 -v /path/to/your/server.cfg:/hlds/cstrike/server.cfg archont94/counter-strike1.6:latest
+docker run --name cs16-server -p 27015:27015/udp -p 27015:27015 -v /path/to/your/server.cfg:/hlds/cstrike/server.cfg tractr/counter-strike-1.6-servers:latest
 ```
 
 Keep in mind the server.cfg file can override the settings from your environment variables:  
