@@ -38,7 +38,7 @@ docker run -d \
 | `DOWNLOAD_URL` | URL where maps and assets are available   | `http://127.0.0.1/cstrike/` |
 | `MAXPLAYERS`   | The maximum number of players             | `16`                        |
 | `BOTS_FILL`    | Add bots to reach a min number of players | `0`                         |
-| `MAP`          | The initial map                           | None                        |
+| `MAP`          | The initial map                           | `de_dust2`                  |
 | `SERVER_NAME`  | The server name                           | `Counter-Strike 1.6 Server` |
 
 ## Build the image
