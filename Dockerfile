@@ -1,9 +1,11 @@
-# Source Dockerfile : https://github.com/jimtouz/counter-strike-docker/blob/master/Dockerfile
-FROM cs16ds/server:add_bot_support as classic
+# Source Dockerfile: https://github.com/jimtouz/counter-strike-docker/blob/add_bot_support/Dockerfile
+# Source branch: https://github.com/jimtouz/counter-strike-docker/tree/add_bot_support
+FROM cajuclc/cstrike-docker:latest as classic
 
-# add default server config
-COPY configs/classic/server.cfg /opt/hlds/cstrike/server.cfg
-COPY configs/classic/maps.ini /opt/hlds/cstrike/addons/amxmodx/configs/maps.ini
+# add server config
+COPY configs/classic/server.cfg /home/cstrike/cstrike/server.cfg
+COPY configs/classic/maps.ini /home/cstrike/cstrike/addons/amxmodx/configs/maps.ini
+COPY configs/classic/podbot.cfg /home/cstrike/cstrike/addons/podbot/podbot.cfg
 
 # install dependencies
 RUN apt-get update && \
@@ -23,6 +25,7 @@ ENTRYPOINT ["/bin/entrypoint.sh"]
 
 FROM classic as melee
 
-# add default server config
-COPY configs/melee/server.cfg /opt/hlds/cstrike/server.cfg
-COPY configs/melee/maps.ini /opt/hlds/cstrike/addons/amxmodx/configs/maps.ini
+# add server config
+COPY configs/melee/server.cfg /home/cstrike/cstrike/server.cfg
+COPY configs/melee/maps.ini /home/cstrike/cstrike/addons/amxmodx/configs/maps.ini
+COPY configs/melee/podbot.cfg /home/cstrike/cstrike/addons/podbot/podbot.cfg
