@@ -1,5 +1,5 @@
-# Source Dockerfile: https://github.com/jimtouz/counter-strike-docker/blob/add_bot_support/Dockerfile
-# Source branch: https://github.com/jimtouz/counter-strike-docker/tree/add_bot_support
+# Source Dockerfile: https://github.com/CajuCLC/cstrike-docker/blob/main/Dockerfile
+# Source branch: https://github.com/CajuCLC/cstrike-docker
 FROM cajuclc/cstrike-docker:latest as classic
 
 # Need privilege
