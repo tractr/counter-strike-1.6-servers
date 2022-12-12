@@ -17,7 +17,7 @@ ADD entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
 ENTRYPOINT ["/bin/entrypoint.sh"]
 
-USER steam
+#USER steam
 
 # add server config
 COPY configs/classic/server.cfg /home/steam/cstrike/cstrike/server.cfg
