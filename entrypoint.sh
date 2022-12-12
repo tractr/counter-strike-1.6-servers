@@ -20,6 +20,11 @@ fi
 
 # Add bots.
 sed -i "s/{BOTS_FILL}/${BOTS_FILL}/g" /home/steam/cstrike/cstrike/addons/podbot/podbot.cfg
+# If BOT_FILL is 0, then remove the line `pb fillserver 100` from podbot.cfg
+if [ "${BOTS_FILL}" -eq 0 ]; then
+    sed -i "/pb fillserver 100/d" /home/steam/cstrike/cstrike/addons/podbot/podbot.cfg
+fi
+
 
 # Start frontend
 service nginx start;
