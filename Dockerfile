@@ -1,9 +1,9 @@
 # Source Dockerfile : https://github.com/jimtouz/counter-strike-docker/blob/master/Dockerfile
-FROM cs16ds/server:add_bot_support as base
-
+FROM cs16ds/server:add_bot_support as classic
 
 # add default server config
-#COPY server.cfg /opt/hlds/cstrike/server.cfg
+COPY configs/classic/server.cfg /opt/hlds/cstrike/server.cfg
+COPY configs/classic/maps.ini /opt/hlds/cstrike/addons/amxmodx/configs/maps.ini
 
 # install dependencies
 RUN apt-get update && \
@@ -19,5 +19,10 @@ ADD entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
 
 # Startup
-WORKDIR /opt/hlds
-ENTRYPOINT service nginx start; /bin/entrypoint.sh
+ENTRYPOINT ["/bin/entrypoint.sh"]
+
+FROM classic as melee
+
+# add default server config
+COPY configs/melee/server.cfg /opt/hlds/cstrike/server.cfg
+COPY configs/melee/maps.ini /opt/hlds/cstrike/addons/amxmodx/configs/maps.ini

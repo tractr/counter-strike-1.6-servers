@@ -1,70 +1,76 @@
-# Counter Strike 1.6 servers
+# Docker image for Counter Strike 1.6 Dedicated Server
 
-Docker images to serve Counter Strike 1.6 with mods.
+## Start the server
 
-These images are based on https://github.com/archont94/counter-strike1.6
+### Minimum properties setup
 
-## Usage
-
-The fastest way to set this up is to pull the image and start it via `docker run`.
-
-``` bash
-docker pull tractr/counter-strike-1.6-servers
+```bash
+docker run -d \
+  -p 26900:26900/udp \
+  -p 27020:27020/udp \
+  -p 27015:27015/udp \
+  -p 27015:27015 \
+  -p 80:80 \
+  -e ADMIN_STEAM=0:1:1234566 \
+  --name cs \
+  tractr/counter-strike-1.6-servers:latest
 ```
 
-``` bash
-docker run --name cs16-server -p 27015:27015/udp -p 27015:27015 -p 80:80 tractr/counter-strike-1.6-servers:latest
+### All properties setup
+```bash
+docker run -d \
+  -p 26900:26900/udp \
+  -p 27020:27020/udp \
+  -p 27015:27015/udp \
+  -p 27015:27015 \
+  -p 80:80 \
+  -e DOWNLOAD_URL="http://192.168.0.100:27015/cstrike/" \
+  -e MAXPLAYERS=32 \
+  -e START_MAP=de_dust2 \
+  -e SERVER_NAME="My Server Name" \
+  -e START_MONEY=16000 \
+  -e BUY_TIME=0.25 \
+  -e FRIENDLY_FIRE=1 \
+  -e ADMIN_STEAM=0:1:1234566 \
+  --name cs \
+  tractr/counter-strike-1.6-servers:latest +log
 ```
 
-Port 27015 is required by Counter-Strike 1.6 game server.
+#### Propetries
 
-Port 80 is used to serve assets (maps, gfxs etc.) via http for fast download feature. 
+| Name | Description                                             | Default Value |
+| --- |---------------------------------------------------------| --- |
+| `DOWNLOAD_URL` | URL where maps and assets are available                 | `http://127.0.0.1/cstrike/` |
+| `MAXPLAYERS` | The maximum number of players                           | `32` |
+| `START_MAP` | The initial map                                         | `de_dust2` |
+| `SERVER_NAME` | The server name                                         | `Counter-Strike 1.6 Server` |
+| `START_MONEY` | The initial money                                       | `800` |
+| `BUY_TIME` | The allowed time to buy items in each round (*minutes*) | `0.25` |
+| `FRIENDLY_FIRE` | Enable or disable the friendly fire. (*off: 0, on: 1*)  | `1` |
+| `SERVER_PASSWORD` | The server password. (*Empty for no server password*)   | None |
+| `RCON_PASSWORD` | The rcon password. (*Empty for no rcon password*)       | None |
+| `RESTART_ON_FAIL` | *TBD*                                                   | *TBD* |
+| `ADMIN_STEAM` | *TBD - amx mod related*                                 | *TBD* |
 
+## Build the image
 
-## Available build variables
-
-| Variable       | Value                             | Comment |
-| -------------- | --------------------------------- | ------- |
-| SERVER_NAME    | "Counter-Strike 1.6 DockerServer" | Custom name for server, can be modified later in /hlds/cstrike/server.cfg |
-| FAST_DL        | "http://127.0.0.1/cstrike/"       | Full address for fast download site, it can be IP address or domain of your server. Keep in mind, it have to contain 'http' at beginning. Verify if assets are served properly by checking this link in web browser, you should be able to see gfx, maps, models, overviews, sound and sprites directories and their content. If port 80 is already in use by other docker, you can do differnet port mapping (`-p 8080:80`) and include that information in final path (i.e. `http://10.20.30.40:8080/cstrike/`). Can be modified later in /hlds/cstrike/server.cfg |
-| ADMIN_STEAM_ID | "STEAM_0:0:123456"                | Custom SteamID for admin user, can be checked in Counter-Strike console (type 'status' when you are connected to any server). Can be modified (or additional admins can be added) in /hlds/cstrike/addons/amxmodx/configs/users.ini |
-
-In order to edit file, log inside container with `docker exec -it CONTAINER_ID bash`. After that you can run `nano` editor and modify files.
-
-## Available environment variables
-
-| Variable   | Value    |
-| ---------- | -------- |
-| PORT       | 27015    |
-| MAP        | de_dust2 |
-| MAXPLAYERS | 16       |
-| SV_LAN     | 0        |
-
-## Custom config files
-
-You can add you own `server.cfg`, `banned.cfg`, `listip.cfg` and `mapcycle.txt` (or any other file) by linking them as volumes into the image.
-
-``` bash
--v /path/to/your/server.cfg:/hlds/cstrike/server.cfg
+```bash
+docker build . --tag tractr/counter-strike-1.6-servers:latest --target classic
 ```
 
-The complete command looks like this:
-
-``` bash
-docker run --name cs16-server -p 27015:27015/udp -p 27015:27015 -v /path/to/your/server.cfg:/hlds/cstrike/server.cfg tractr/counter-strike-1.6-servers:latest
+```bash
+docker build . --tag tractr/counter-strike-1.6-servers:melee --target melee
 ```
 
-Keep in mind the server.cfg file can override the settings from your environment variables:  
-`MAP`, `MAXPLAYERS` and `SV_LAN`
+# Attributions
 
-## Additional mods
+This project is based on:
 
-In order to install additional amxmodx mods, follow the instrucitons. Usually it is required to copy files to proper folder (`/hlds/cstrike/addons/amxmodx/plugins`) and modify some config files.
+- https://github.com/jimtouz/counter-strike-docker
+- https://github.com/archont94/counter-strike1.6
 
-In order to copy files to docker you can use `docker cp` command:
+## Changes from original project
 
-``` bash
-docker cp EXTRACTED_MOD_DIRECTORY CONTAINER_ID:/hlds/cstrike/addons/amxmodx
-```
-
-Be careful to not overwrite other files. Before any changes, you can always use `docker commit` command to create image with your changes, which you can restore easily later.
+* Add ability to download maps and assets
+* Added new maps.
+* Added new parameters in run script.

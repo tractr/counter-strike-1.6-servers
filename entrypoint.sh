@@ -14,6 +14,7 @@ fi
 
 EXTRA_OPTIONS=( "$@" )
 
+DOWNLOAD_URL="${DOWNLOAD_URL:-http://127.0.0.1/cstrike/}"
 EXECUTABLE="/opt/hlds/hlds_run"
 GAME="${GAME:-cstrike}"
 MAXPLAYERS="${MAXPLAYERS:-32}"
@@ -23,7 +24,7 @@ START_MONEY="${START_MONEY:-800}"
 BUY_TIME="${BUY_TIME:-0.25}"
 FRIENDLY_FIRE="${FRIENDLY_FIRE:-1}"
 
-OPTIONS=( "-game" "${GAME}" "+maxplayers" "${MAXPLAYERS}" "+map" "${START_MAP}" "+hostname" "\"${SERVER_NAME}\"" "+mp_startmoney" "${START_MONEY}" "+mp_friendlyfire" "${FRIENDLY_FIRE}" "+mp_buytime" "${BUY_TIME}")
+OPTIONS=( "-game" "${GAME}" "+maxplayers" "${MAXPLAYERS}" "+map" "${START_MAP}" "+hostname" "\"${SERVER_NAME}\"" "+sv_downloadurl" "\"${DOWNLOAD_URL}\"" "+mp_startmoney" "${START_MONEY}" "+mp_friendlyfire" "${FRIENDLY_FIRE}" "+mp_buytime" "${BUY_TIME}")
 
 if [ -z "${RESTART_ON_FAIL}" ]; then
     OPTIONS+=('-norestart')
@@ -42,5 +43,8 @@ if [ -n "${ADMIN_STEAM}" ]; then
 fi
 
 set > "${CONFIG_FILE}"
+
+# Start frontend
+service nginx start;
 
 exec "${EXECUTABLE}" "${OPTIONS[@]}" "${EXTRA_OPTIONS[@]}"
