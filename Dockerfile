@@ -2,12 +2,8 @@
 # Source branch: https://github.com/jimtouz/counter-strike-docker/tree/add_bot_support
 FROM cajuclc/cstrike-docker:latest as classic
 
-# add server config
-COPY configs/classic/server.cfg /home/cstrike/cstrike/server.cfg
-COPY configs/classic/maps.ini /home/cstrike/cstrike/addons/amxmodx/configs/maps.ini
-COPY configs/classic/podbot.cfg /home/cstrike/cstrike/addons/podbot/podbot.cfg
-
 # install dependencies
+USER root
 RUN apt-get update && \
     apt-get -y install nginx
 
@@ -19,13 +15,18 @@ COPY nginx.conf /etc/nginx/sites-available/default
 # add entrypoint
 ADD entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
-
-# Startup
 ENTRYPOINT ["/bin/entrypoint.sh"]
+
+USER steam
+
+# add server config
+COPY configs/classic/server.cfg /home/steam/cstrike/cstrike/server.cfg
+COPY configs/classic/maps.ini /home/steam/cstrike/cstrike/addons/amxmodx/configs/maps.ini
+COPY configs/classic/podbot.cfg /home/steam/cstrike/cstrike/addons/podbot/podbot.cfg
 
 FROM classic as melee
 
 # add server config
-COPY configs/melee/server.cfg /home/cstrike/cstrike/server.cfg
-COPY configs/melee/maps.ini /home/cstrike/cstrike/addons/amxmodx/configs/maps.ini
-COPY configs/melee/podbot.cfg /home/cstrike/cstrike/addons/podbot/podbot.cfg
+COPY configs/melee/server.cfg /home/steam/cstrike/cstrike/server.cfg
+COPY configs/melee/maps.ini /home/steam/cstrike/cstrike/addons/amxmodx/configs/maps.ini
+COPY configs/melee/podbot.cfg /home/steam/cstrike/cstrike/addons/podbot/podbot.cfg
