@@ -62,6 +62,17 @@ docker build . --tag tractr/counter-strike-1.6-servers:latest --target classic
 docker build . --tag tractr/counter-strike-1.6-servers:melee --target melee
 ```
 
+### Build and push all images
+
+```bash
+docker build . --tag tractr/counter-strike-1.6-servers:latest --target classic
+docker push tractr/counter-strike-1.6-servers:latest
+docker build . --tag tractr/counter-strike-1.6-servers:classic --target classic
+docker push tractr/counter-strike-1.6-servers:classic
+docker build . --tag tractr/counter-strike-1.6-servers:melee --target melee
+docker push tractr/counter-strike-1.6-servers:melee
+```
+
 # Attributions
 
 This project is based on:
