@@ -1,6 +1,28 @@
 #!/usr/bin/env bash
 
+# Apply default envs
+PORT="${PORT:-27015}"
+SV_LAN="${SV_LAN:-0}"
+SERVER_NAME="${SERVER_NAME:-Counter-Strike 1.6 Server}"
+MAXPLAYERS="${MAXPLAYERS:-16}"
+BOTS_FILL="${BOTS_FILL:-0}"
+
+# Build options list
+OPTIONS=( "-game" "cstrike" "-strictportbind" "-ip" "0.0.0.0" "-port" "${PORT}" "-maxplayers" "${MAXPLAYERS}" "+hostname" "${SERVER_NAME}" "+sv_lan" "${SV_LAN}" )
+
+if [ -n "${MAP}" ]; then
+    OPTIONS+=("+map" "${MAP}")
+fi
+
+if [ -n "${DOWNLOAD_URL}" ]; then
+    OPTIONS+=("-sv_downloadurl" "${DOWNLOAD_URL}")
+fi
+
+# Add bots.
+sed -i "s/{BOTS_FILL}/${BOTS_FILL}/g" /home/steam/cstrike/cstrike/addons/podbot/podbot.cfg
+
 # Start frontend
 service nginx start;
 
-./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port ${PORT} +sv_lan ${SV_LAN} +map ${MAP} -maxplayers ${MAXPLAYERS} -sv_downloadurl "${DOWNLOAD_URL}" +hostname "${SERVER_NAME}"
+# Start server
+./hlds_run "${OPTIONS[@]}"

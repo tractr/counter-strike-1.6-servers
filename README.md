@@ -22,6 +22,7 @@ docker run -d \
   -p 80:80 \
   -e DOWNLOAD_URL="http://192.168.0.100:27015/cstrike/" \
   -e MAXPLAYERS=32 \
+  -e BOTS_FILL=6 \
   -e MAP=de_dust2 \
   -e SERVER_NAME="My Server Name" \
   --name cs \
@@ -30,14 +31,15 @@ docker run -d \
 
 #### Propetries
 
-| Name | Description                             | Default Value               |
-| --- |-----------------------------------------|-----------------------------|
-| `PORT` | The gaming port                         | `27015`                     |
-| `SV_LAN` | Restrict to LAN                         | `0`                         |
-| `DOWNLOAD_URL` | URL where maps and assets are available | `http://127.0.0.1/cstrike/` |
-| `MAXPLAYERS` | The maximum number of players           | `16`                        |
-| `MAP` | The initial map                         | `de_dust2`                  |
-| `SERVER_NAME` | The server name                         | `Counter-Strike 1.6 Server` |
+| Name           | Description                               | Default Value               |
+|----------------|-------------------------------------------|-----------------------------|
+| `PORT`         | The gaming port                           | `27015`                     |
+| `SV_LAN`       | Restrict to LAN                           | `0`                         |
+| `DOWNLOAD_URL` | URL where maps and assets are available   | `http://127.0.0.1/cstrike/` |
+| `MAXPLAYERS`   | The maximum number of players             | `16`                        |
+| `BOTS_FILL`    | Add bots to reach a min number of players | `0`                         |
+| `MAP`          | The initial map                           | None                        |
+| `SERVER_NAME`  | The server name                           | `Counter-Strike 1.6 Server` |
 
 ## Build the image
 
