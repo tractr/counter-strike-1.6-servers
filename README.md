@@ -57,7 +57,11 @@ docker push tractr/counter-strike-1.6-servers:latest && \
 docker build . --tag tractr/counter-strike-1.6-servers:classic --target classic && \
 docker push tractr/counter-strike-1.6-servers:classic && \
 docker build . --tag tractr/counter-strike-1.6-servers:melee --target melee && \
-docker push tractr/counter-strike-1.6-servers:melee
+docker push tractr/counter-strike-1.6-servers:melee && \
+docker build . --tag tractr/counter-strike-1.6-servers:deathmatch-team --target deathmatch-team && \
+docker push tractr/counter-strike-1.6-servers:deathmatch-team && \
+docker build . --tag tractr/counter-strike-1.6-servers:deathmatch-ffa --target deathmatch-ffa && \
+docker push tractr/counter-strike-1.6-servers:deathmatch-ffa
 ```
 
 # Attributions
