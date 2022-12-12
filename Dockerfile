@@ -41,7 +41,7 @@ RUN apt-get update && \
 # Add mod
 # https://www.bailopan.net/csdm/index.php?page=doc
 COPY mods/csdm-2.1.zip /csdm-2.1.zip
-RUN unzip -o /csdm-2.1.zip -d /home/steam/cstrike
+RUN unzip -o /csdm-2.1.zip -d /home/steam/cstrike/cstrike
 
 # add server config
 COPY configs/deathmatch-team/server.cfg /home/steam/cstrike/cstrike/server.cfg
