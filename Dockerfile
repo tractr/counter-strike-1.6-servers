@@ -22,6 +22,9 @@ ENTRYPOINT ["/bin/entrypoint.sh"]
 # Remove map.ini in order to use mapcycle.txt
 RUN rm /home/steam/cstrike/cstrike/addons/amxmodx/configs/maps.ini
 
+# Remove message of the day
+RUN rm /home/steam/cstrike/cstrike/motd.txt
+
 # add server config
 COPY --chown=steam:steam configs/classic/server.cfg /home/steam/cstrike/cstrike/server.cfg
 COPY --chown=steam:steam configs/classic/mapcycle.txt /home/steam/cstrike/cstrike/mapcycle.txt
