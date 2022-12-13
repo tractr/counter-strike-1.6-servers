@@ -5,12 +5,7 @@
 ### Minimum properties setup
 
 ```bash
-docker run -d \
-  -p 27015:27015/udp \
-  -p 27015:27015 \
-  -p 80:80 \
-  --name cs \
-  tractr/counter-strike-1.6-servers:latest
+docker run -d -p 27015:27015/udp -p 27015:27015 -p 80:80 --name cs tractr/counter-strike-1.6-servers:deathmatch-team
 ```
 
 ### All properties setup
@@ -73,6 +68,7 @@ This project is based on:
 - https://github.com/CajuCLC/cstrike-docker
 - https://github.com/jimtouz/counter-strike-docker
 - https://github.com/archont94/counter-strike1.6
+- https://github.com/vitordino/counter-strike-docker
 
 ## Changes from original project
 

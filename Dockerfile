@@ -12,10 +12,10 @@ RUN apt-get update && \
 # configure nginx to allow for FastDownload
 RUN mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup && \
     bash -c "mkdir -p /srv/cstrike/{gfx,maps,models,overviews,sound,sprites}/nothing-here"
-COPY nginx.conf /etc/nginx/sites-available/default
+COPY --chown=steam:steam nginx.conf /etc/nginx/sites-available/default
 
 # add entrypoint
-ADD entrypoint.sh /bin/entrypoint.sh
+COPY --chown=steam:steam entrypoint.sh /bin/entrypoint.sh
 RUN chmod +x /bin/entrypoint.sh
 ENTRYPOINT ["/bin/entrypoint.sh"]
 
@@ -23,35 +23,38 @@ ENTRYPOINT ["/bin/entrypoint.sh"]
 RUN rm /home/steam/cstrike/cstrike/addons/amxmodx/configs/maps.ini
 
 # add server config
-COPY configs/classic/server.cfg /home/steam/cstrike/cstrike/server.cfg
-COPY configs/classic/mapcycle.txt /home/steam/cstrike/cstrike/mapcycle.txt
-COPY configs/classic/podbot.cfg /home/steam/cstrike/cstrike/addons/podbot/podbot.cfg
+COPY --chown=steam:steam configs/classic/server.cfg /home/steam/cstrike/cstrike/server.cfg
+COPY --chown=steam:steam configs/classic/mapcycle.txt /home/steam/cstrike/cstrike/mapcycle.txt
+COPY --chown=steam:steam configs/classic/podbot.cfg /home/steam/cstrike/cstrike/addons/podbot/podbot.cfg
 
 FROM classic as melee
 
 # add server config
-COPY configs/melee/server.cfg /home/steam/cstrike/cstrike/server.cfg
-COPY configs/melee/mapcycle.txt /home/steam/cstrike/cstrike/mapcycle.txt
+COPY --chown=steam:steam configs/melee/server.cfg /home/steam/cstrike/cstrike/server.cfg
+COPY --chown=steam:steam configs/melee/mapcycle.txt /home/steam/cstrike/cstrike/mapcycle.txt
 
 FROM classic as deathmatch-team
 
 RUN apt-get update && \
-    apt-get install -y unzip
+    apt-get install -y unzip curl
 
-# Add mod
-# https://www.bailopan.net/csdm/index.php?page=doc
-COPY mods/csdm-2.1.zip /csdm-2.1.zip
-RUN unzip -o /csdm-2.1.zip -d /home/steam/cstrike/cstrike
+# Install CSDM
+RUN curl -sqL 'https://www.bailopan.net/csdm/files/csdm-2.1.2.zip' -o '/home/steam/csdm.zip' && \
+    unzip -u '/home/steam/csdm.zip' -d /home/steam/cstrike/cstrike/ && rm -f '/home/steam/csdm.zip'
+
+# Patch CSDM https://forums.alliedmods.net/showpost.php?p=1909682&postcount=27?p=1909682&postcount=27
+RUN curl -sqL 'https://forums.alliedmods.net/attachment.php?attachmentid=116910&d=1362864766' -o '/home/steam/patch.zip' && \
+    unzip -jfo '/home/steam/patch.zip' -d /home/steam/cstrike/cstrike/addons/amxmodx/modules && rm -f '/home/steam/patch.zip'
+
+RUN apt-get remove -y unzip curl
 
 # add server config
-COPY configs/deathmatch-team/server.cfg /home/steam/cstrike/cstrike/server.cfg
-COPY configs/deathmatch-team/mapcycle.txt /home/steam/cstrike/cstrike/mapcycle.txt
-COPY configs/deathmatch-team/csdm.cfg /home/steam/cstrike/cstrike/addons/amxmodx/configs/csdm.cfg
-COPY configs/deathmatch-team/plugins-csdm.ini /home/steam/cstrike/cstrike/addons/amxmodx/configs/plugins-csdm.ini
-
-RUN apt-get remove -y unzip
+COPY --chown=steam:steam configs/deathmatch-team/server.cfg /home/steam/cstrike/cstrike/server.cfg
+COPY --chown=steam:steam configs/deathmatch-team/mapcycle.txt /home/steam/cstrike/cstrike/mapcycle.txt
+COPY --chown=steam:steam configs/deathmatch-team/csdm.cfg /home/steam/cstrike/cstrike/addons/amxmodx/configs/csdm.cfg
 
 FROM deathmatch-team as deathmatch-ffa
 
 # add server config
-COPY configs/deathmatch-ffa/csdm.cfg /home/steam/cstrike/cstrike/addons/amxmodx/configs/csdm.cfg
+COPY --chown=steam:steam configs/deathmatch-ffa/csdm.cfg /home/steam/cstrike/cstrike/addons/amxmodx/configs/csdm.cfg
+COPY --chown=steam:steam configs/deathmatch-ffa/podbot.cfg /home/steam/cstrike/cstrike/addons/podbot/podbot.cfg
