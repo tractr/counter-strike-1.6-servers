@@ -5,7 +5,7 @@
 ### Minimum properties setup
 
 ```bash
-docker run -d -p 27015:27015/udp -p 27015:27015 -p 80:80 --name cs tractr/counter-strike-1.6-servers:deathmatch-team
+docker run -d -p 27015:27015/udp -p 27015:27015 -p 80:80 --name cs tractr/counter-strike-1.6-servers:latest
 ```
 
 ### All properties setup
@@ -55,6 +55,8 @@ docker build . --tag tractr/counter-strike-1.6-servers:classic --target classic 
 docker push tractr/counter-strike-1.6-servers:classic && \
 docker build . --tag tractr/counter-strike-1.6-servers:melee --target melee && \
 docker push tractr/counter-strike-1.6-servers:melee && \
+docker build . --tag tractr/counter-strike-1.6-servers:hsonly --target hsonly && \
+docker push tractr/counter-strike-1.6-servers:hsonly && \
 docker build . --tag tractr/counter-strike-1.6-servers:deathmatch-team --target deathmatch-team && \
 docker push tractr/counter-strike-1.6-servers:deathmatch-team && \
 docker build . --tag tractr/counter-strike-1.6-servers:deathmatch-ffa --target deathmatch-ffa && \
