@@ -77,3 +77,7 @@ This project is based on:
 * Add ability to download maps and assets
 * Added new maps.
 * Added new parameters in run script.
+
+# Links
+
+List of available cvars: http://txdv.github.io/cstrike-cvarlist/

@@ -36,9 +36,10 @@ COPY --chown=steam:steam configs/melee/mapcycle.txt /home/steam/cstrike/cstrike/
 FROM classic as hsonly
 
 # Install HeadShot Only AMX Plugin
-COPY --chown=steam:steam mods/hsonly/hsonly.sma /home/steam/cstrike/cstrike/addons/amxmodx/scripting/hsonly.sma
-COPY --chown=steam:steam mods/hsonly/hsonly.amxx /home/steam/cstrike/cstrike/addons/amxmodx/plugins/hsonly.amxx
-COPY --chown=steam:steam mods/hsonly/hs_only.txt /home/steam/cstrike/cstrike/addons/amxmodx/data/lang/hs_only.txt
+COPY --chown=steam:steam configs/hsonly/mod/hsonly.sma /home/steam/cstrike/cstrike/addons/amxmodx/scripting/hsonly.sma
+COPY --chown=steam:steam configs/hsonly/mod/hsonly.amxx /home/steam/cstrike/cstrike/addons/amxmodx/plugins/hsonly.amxx
+COPY --chown=steam:steam configs/hsonly/mod/hs_only.txt /home/steam/cstrike/cstrike/addons/amxmodx/data/lang/hs_only.txt
+COPY --chown=steam:steam configs/hsonly/server.cfg /home/steam/cstrike/cstrike/server.cfg
 RUN echo "hsonly.amxx               ; HeadShot Only" >> "/home/steam/cstrike/cstrike/addons/amxmodx/configs/plugins.ini"
 
 FROM classic as deathmatch-team
