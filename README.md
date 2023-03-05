@@ -15,7 +15,7 @@ docker run -d \
   -p 27015:27015/udp \
   -p 27015:27015 \
   -p 80:80 \
-  -e DOWNLOAD_URL="http://192.168.0.100:27015/cstrike/" \
+  -e DOWNLOAD_URL="http://192.168.0.100:80/cstrike/" \
   -e MAXPLAYERS=32 \
   -e BOTS_FILL=6 \
   -e MAP=de_dust2 \
